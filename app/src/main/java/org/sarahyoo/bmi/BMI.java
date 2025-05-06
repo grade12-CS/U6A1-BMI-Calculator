@@ -14,6 +14,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * a JPanel that constructs a BMI calculator
+ */
 public class BMI extends JPanel {
     private final JRadioButton rbtn_matric, rbtn_imperial;
     private final JTextField text_height, text_weight;
@@ -23,8 +26,12 @@ public class BMI extends JPanel {
     private boolean is_metric = true;
     
     private final DecimalFormat df = new DecimalFormat("0.00");
-    private final JFrame frame;
+    private final JFrame frame; //recieves main frame to disclose it when exit button clicked
     
+    /**
+     * initializes Jcomponents, adding layouts and action listeners
+     * @param frame main frame the panel will be displayed
+     */
     public BMI(JFrame frame) {
         this.frame = frame;
         setSize(getSize());
@@ -44,10 +51,18 @@ public class BMI extends JPanel {
         add_actionlisteners();
     }
 
+    /**
+     * calculates bmi for either metric and imperial mode
+     * @return bmi
+     */
     public double calculate_bmi() {
-        return is_metric ? utils.bmi_matric(height, weight) : utils.bmi_imperial(height, weight);
+        return is_metric ? utils.bmi_metric(height, weight) : utils.bmi_imperial(height, weight);
     }
 
+    /**
+     * converts units of labels and changes height, and weight into appropriate value depending on the units
+     * also re-calculates bmi to reflect the changes
+     */
     private void update_units() {
         label_height.setText("Height " + (is_metric ? "(cm)" : "(inch)"));
         label_weight.setText("Weight " + (is_metric ? "(kg)" : "(ibs)"));
@@ -58,6 +73,10 @@ public class BMI extends JPanel {
         update_bmi_result_label();
     }
     
+    /**
+     * this is called on units change
+     * it calculates bmi for both metric and imperial units and update the label
+     */
     private void update_bmi_result_label() {
         String result;
         if (height <= 0 || weight <= 0) {
@@ -70,6 +89,9 @@ public class BMI extends JPanel {
         label_bmi_result.setText(result);
     }
     
+    /**
+     * defines actions for all buttons in the panel on their click events
+     */
     private void add_actionlisteners() {
         rbtn_matric.addActionListener(e -> {
             is_metric = true;
@@ -108,6 +130,9 @@ public class BMI extends JPanel {
         });
     }
     
+    /**
+     * adds Jcomponents to this JPanel and defines layout
+     */
     private void add_components() {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -151,6 +176,10 @@ public class BMI extends JPanel {
         add(btn_exit, c);
     }
 
+    /**
+     * constructs a simple interface for a document listner that allows recieving all document event in one method
+     * it is to remove the cubersome that original document listener has
+     */
     @FunctionalInterface
     public interface SimpleDocumentListener extends DocumentListener {
         void update(DocumentEvent e);
