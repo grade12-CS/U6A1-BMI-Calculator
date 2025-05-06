@@ -28,20 +28,35 @@ public class utils {
     /**
      * converts centimeters into inches 
      * @param cm length in centimeters
-     * @return
+     * @return length in inches
      */
     public static double to_inch(double cm) {
         return cm / 2.54;
     }
 
+    /**
+     * converts inches into centimeters
+     * @param inch length in inches
+     * @return length in centimeters
+     */
     public static double to_cm(double inch) {
         return inch * 2.54;
     }
 
+    /**
+     * converts pounds into kilograms
+     * @param ibs weight in pounds
+     * @return weight in kilograms
+     */
     public static double to_kg(double ibs) {
         return ibs / 2.205;
     }
     
+    /**
+     * converts kilograms into pounds
+     * @param kg weight in kilograms
+     * @return weight in pounds
+     */
     public static double to_ibs(double kg) {
         return kg * 2.205;
     }
