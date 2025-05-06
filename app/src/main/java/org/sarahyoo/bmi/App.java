@@ -5,125 +5,19 @@ package org.sarahyoo.bmi;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.text.DecimalFormat;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 public class App extends JFrame {
-    private final JPanel panel = new JPanel();
-    public boolean is_matric = true;
 
     public App () {
         setTitle("BMI Calculator");
         setPreferredSize(new Dimension(400, 300));
         setForeground(Color.black);
-        init_panel();
         pack();
+        add(new BMI(this));
         setVisible(true);
     }
-
-    private void init_panel() {
-        panel.setLayout(new GridBagLayout());
-        panel.setBorder(new EmptyBorder(10, 10, 10, 10)); //add padding to edges
-        var c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1.0; 
-        c.weighty = 1.0; 
-        var combo = new JComboBox<>();
-        c.gridx = 0;
-        c.gridy = 0;
-        var check_matric = new JRadioButton("Metric");
-        check_matric.addActionListener(e -> {
-          is_matric = true;  
-    
-        });
-        panel.add(check_matric, c);
-
-        c.gridx = 1;
-        var check_imperial = new JRadioButton("Imperial");
-        check_imperial.addActionListener(e -> {
-            is_matric = false;
-        });
-        panel.add(check_imperial, c);
-
-        c.gridx = 0;
-        c.gridy = 1;
-        var label_height = new JLabel("Height (m)");
-        panel.add(label_height, c);
-
-        c.gridx = 1;
-        var text_height = new JTextField();
-        panel.add(text_height, c);
-
-        c.gridx = 0;
-        c.gridy = 2;
-        var label_weight = new JLabel("Weight (ibs)");
-        panel.add(label_weight, c);
-        
-        c.gridx = 1;
-        var text_weight = new JTextField();
-        panel.add(text_weight, c);
-
-        c.gridx = 0;
-        c.gridy = 3;
-        var label_bmi = new JLabel("BMI:");
-        panel.add(label_bmi, c);
-
-        c.gridx = 1;
-        var label_bmi_result = new JLabel();
-        panel.add(label_bmi_result, c);
-
-        c.gridx = 0;
-        c.gridy = 4;
-        var btn_bmi = new JButton("BMI"); 
-        DecimalFormat df = new DecimalFormat("0.00");
-        btn_bmi.addActionListener(e -> {
-            //TODO: metrics vs imperial
-            String result = "";
-            try {
-                double height = Double.parseDouble(text_height.getText());
-                double weight = Double.parseDouble(text_weight.getText());
-                if (height <= 0 && weight <= 0) {
-                    result = "invalid input value";
-                } else {
-                    double bmi = weight / (height * height);
-                    result = df.format(bmi);
-                }
-            } catch (NumberFormatException err) {
-                result = err.getMessage();
-            } finally {
-                label_bmi_result.setText(result);
-            }
-
-        });
-        panel.add(btn_bmi, c);
-
-        c.gridx = 1;
-        var btn_exit = new JButton("Exit"); 
-        btn_exit.addActionListener(e -> {
-            dispose();
-        });
-        panel.add(btn_exit, c);
-
-        add(panel);
-    }
-
-    private double get_bmi_matric(double height_m, double weight_kg) {
-        return weight_kg / (height_m * height_m);
-    }
-
-    private double get_bmi_imperial(double height_inch, double weight_ibs) {
-        return weight_ibs / (height_inch * height_inch);
-    }    
 
     public static void main(String[] args) {
         new App();
